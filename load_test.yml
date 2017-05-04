@@ -1,0 +1,23 @@
+---
+execution:
+  executor: locust
+  concurrency: 15
+  ramp-up: 2m
+  iterations: 750
+  scenario:
+    default-address: https://dev.mydestinate.com/
+    script: load_test.py
+reporting:
+- module: passfail
+  criterias:
+  - fail>1000, continue as failed
+- module: final_stats
+  summary: true
+  percentiles: true
+  failed-labels: true
+  test-duration: true
+  dump-xml: final_stats.xml
+- module: junit-xml
+  data-source: sample-labels
+- module: junit-xml
+  data-source: pass-fail
